@@ -14,6 +14,8 @@ import torch.optim as optim
 from torch.optim.lr_scheduler import LambdaLR
 from torch.utils.data.dataloader import DataLoader
 
+from .acceleration import Acceleration_NonConvex_small, custom_adagrad
+
 logger = logging.getLogger(__name__)
 
 class TrainerConfig:
@@ -68,7 +70,8 @@ class Trainer:
             {"params": params_nodecay, "weight_decay": 0.0},
         ]
         optimizer = optim.AdamW(optim_groups, lr=config.learning_rate, betas=config.betas)
-
+        # optimizer = Acceleration_NonConvex_small(optim_groups, lr=config.learning_rate)
+        # optimizer = custom_adagrad(optim_groups, lr=config.learning_rate)
         def run_epoch(split):
             is_train = split == 'train'
             model.train(is_train)

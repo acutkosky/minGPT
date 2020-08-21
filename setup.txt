@@ -1,0 +1,9 @@
+How to create a pytorch environment:
+
+pyenv virtualenv 3.8.5 minGPT3.8.5
+pyenv local minGPT3.8.5
+pip install --upgrade pip
+pip install torch==1.6.0+cpu torchvision==0.7.0+cpu -f https://download.pytorch.org/whl/torch_stable.html
+pip install jupyter
+pip install tqdm
+wget https://raw.githubusercontent.com/karpathy/char-rnn/master/data/tinyshakespeare/input.txt
