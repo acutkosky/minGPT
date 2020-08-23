@@ -33,6 +33,7 @@ class TrainerConfig:
     # checkpoint settings
     ckpt_path = None
     num_workers = 0 # for DataLoader
+    optimizer = 'adamw'
 
     def __init__(self, **kwargs):
         for k,v in kwargs.items():
@@ -69,9 +70,12 @@ class Trainer:
             {"params": params_decay, "weight_decay": config.weight_decay},
             {"params": params_nodecay, "weight_decay": 0.0},
         ]
-        optimizer = optim.AdamW(optim_groups, lr=config.learning_rate, betas=config.betas)
-        # optimizer = Acceleration_NonConvex_small(optim_groups, lr=config.learning_rate)
-        # optimizer = custom_adagrad(optim_groups, lr=config.learning_rate)
+        if config.optimizer == 'adamw':
+            optimizer = optim.AdamW(optim_groups, lr=config.learning_rate, betas=config.betas)
+        if config.optimizer == 'accel':
+            optimizer = Acceleration_NonConvex_small(optim_groups, lr=config.learning_rate)
+        if config.optimizer == 'adagrad':
+            optimizer = custom_adagrad(optim_groups, lr=config.learning_rate)
         def run_epoch(split):
             is_train = split == 'train'
             model.train(is_train)
