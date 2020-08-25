@@ -79,7 +79,7 @@ class Acceleration_NonConvex_small(Optimizer):
                 # Perform optimization step
                 grad = p.grad
 
-                grad = grad + group['weight_decay']/group['lr'] * p
+                grad = grad + group['weight_decay'] * p
                 if grad.is_sparse:
                     raise RuntimeError('AdamW does not support sparse gradients')
                 # amsgrad = group['amsgrad']
